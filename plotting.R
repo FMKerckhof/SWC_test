@@ -51,7 +51,7 @@ p1 <- ggplot(data = df, aes(x = Timepoint,y = Cell.density..cells.mL., fill = Ce
   geom_point(shape = 21, size = 4)
 p1
 #If you run it like this, it gives the following message: Error in FUN(X[[i]], ...) : object 'Cell.density..cells.mL' not found
-It must be:
+#It must be:
   
   p1 <-ggplot(data = df, aes(x = Timepoint, y = Cell.density..cells.mL.,
                              fill=Reactor.phase)) + geom_point(shape = 21, size=4)
