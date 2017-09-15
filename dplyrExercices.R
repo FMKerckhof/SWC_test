@@ -3,7 +3,9 @@ library(ggplot2)
 library(dplyr)
 
 #### load data ####
-df <- read.csv("Metadata.csv")
+df <- read.csv("Metadata.csv",
+               blank.lines.skip = TRUE,
+               stringsAsFactors = FALSE)
 
 mean(df[df$Reactor.phase == "Control", "ph"])
 levels(df$Reactor.phase)
@@ -36,9 +38,26 @@ meanph <- df %>% group_by(Reactor.phase) %>%
 # transformed cell density
 meanph <- df %>%
   filter(Reactor.cycle == 2) %>% 
-  group_by(Reactor.phase) %>% 
+  group_by(Reactor.phase) %>%
+  mutate(condratio=Conductivity/temp) %>% 
   summarise(mean.ph = mean(ph),
             mean.d2 = mean(Diversity...D2),
             sd.ph = sd(ph),
             sd.d2 = sd(Diversity...D2),
-            avelog10.celldens = mean(log10(Cell.density..cells.mL.)))
+            avelog10.celldens = mean(log10(Cell.density..cells.mL.)),
+            mean.condrat = mean(condratio))
+
+
+#### join data sets ####
+physicochem <- df %>% 
+  select(sample_title,temp,ph,Conductivity)
+diversity <- df %>% 
+  select(sample_title,contains("Diversity"))
+
+physicodiversity <- dplyr::full_join(physicochem,
+                                     diversity,
+                                     by="sample_title")
+df.nona <- na.exclude(df)
+na.omit()
+rowSums(is.na(df))
+dim(df)
