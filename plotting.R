@@ -78,3 +78,4 @@ pp1 <- pp1 + geom_point(shape=21,size=4,alpha = 0.5) + theme_bw() +  geom_line(a
 pp3 <- pp1 + facet_grid(~Reactor.cycle)  # how do i know whats in reactor phase unique(df$Reactor.phase) #plot alles in fucntie van reactor phase 
 pp4 <- pp1 + facet_grid(Reactor.phase~Reactor.cycle) 
 pp4
+
