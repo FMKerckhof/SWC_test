@@ -23,3 +23,22 @@ physicochem.control <- df %>%
 diversity <- df %>% 
   filter(Reactor.phase == "Startup") %>%
   select(contains("Diversity"))
+
+#### Group_by ####
+meanph <- df %>% group_by(Reactor.phase) %>% 
+                  summarise(mean.ph = mean(ph),
+                            mean.d2 = mean(Diversity...D2),
+                            sd.ph = sd(ph))
+
+# Challenge
+# Generate the above summary for reactor cycle 2 and add
+# standard deviation of the d2 and the mean log10
+# transformed cell density
+meanph <- df %>%
+  filter(Reactor.cycle == 2) %>% 
+  group_by(Reactor.phase) %>% 
+  summarise(mean.ph = mean(ph),
+            mean.d2 = mean(Diversity...D2),
+            sd.ph = sd(ph),
+            sd.d2 = sd(Diversity...D2),
+            avelog10.celldens = mean(log10(Cell.density..cells.mL.)))
